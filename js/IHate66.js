@@ -8,9 +8,12 @@ function initialize() {
 		colors = d3.scale.category10();
 	
 	var cars = d3.range(carNum).map(function(d) {
-		var car = $.extend(true, {}, carDefs.regular);
+		var type = carDefs[Object.keys(carDefs)[Math.floor(Math.random() * Object.keys(carDefs).length)]];
+		var car = $.extend(true, {}, type);
+		car.id = d;
 		car.x = Math.random() * width;
-		car.y = Math.floor(Math.random() * lanes) * (h + 2 * pad);
+		car.l = Math.floor(Math.random() * lanes);
+		car.y = car.l * (h + 2 * pad)
 		car.h = h;
 		car.color = colors(d);
 		return car;
@@ -30,7 +33,7 @@ function initialize() {
 		}
 		var progress = timestamp - startTime;
 		
-		refresh(progress);
+		refresh(progress / 1000);
 		
 		startTime = timestamp;
 		if (!reset) {
@@ -43,8 +46,10 @@ function initialize() {
 	
 	function refresh(progress) {
 		cars.forEach(function(d) {
-			d.x = (d.x + d.v * progress + width) % width;
-			d.v = d.physics.acceleration(d, 0);
+			var others = cars.filter(function(c) { return c.l == d.l && c.x > d.x && c.id != d.id; }).sort(function(a, b) { return a.x - b.x; });
+			d.x = (d.x + d.v * progress * 1000 + width) % width;
+			d.v = d.physics.acceleration(d, others, progress);
+			
 		});
 		shapes.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
 	}
