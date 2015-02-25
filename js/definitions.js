@@ -32,18 +32,21 @@ var carDefs = {
 		physics: physics.steady,
 		v: .03,
 		maxV: .04,
-		w: 20
+		w: 20,
+		merge: .001
 	},*/
 	oneCar: {
 		physics: physics.oneCar,
 		v: .02,
 		maxV: .04,
-		w: 10
+		w: 10,
+		merge: .001
 	},
 	twoCar: {
 		physics: physics.twoCar,
 		v: .02,
-		maxV: .04,
-		w: 20
+		maxV: .06,
+		w: 20,
+		merge: .001
 	}
 };

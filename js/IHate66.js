@@ -14,7 +14,7 @@ function initialize() {
 		car.d = Math.random() * 500;
 		car.x = Math.random() * width;
 		car.l = Math.floor(Math.random() * lanes);
-		car.y = car.l * (h + 2 * pad)
+		car.y = car.l * (h + 2 * pad);
 		car.h = h;
 		car.color = colors(d);
 		return car;
@@ -50,7 +50,16 @@ function initialize() {
 			var others = cars.filter(function(c) { return c.l == d.l && c.x > d.x && c.id != d.id; }).sort(function(a, b) { return a.x - b.x; });
 			d.x = (d.x + d.v * progress * 1000 + width) % width;
 			d.v = d.physics.acceleration(d, others, progress);
-			
+			if (Math.random() < d.merge) {
+				if (d.l == 0) {
+					d.l++;
+				} else if (d.l == lanes - 1) {
+					d.l--;
+				} else {
+					d.l += Math.random() > .5 ? 1 : -1;
+				}
+				d.y = d.l * (h + 2 * pad);
+			}
 		});
 		shapes.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
 	}
