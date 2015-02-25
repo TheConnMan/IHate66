@@ -17,10 +17,10 @@ var physics = {
 			if (others.length == 0 || (others[0].x - me.x - me.w) > me.d) {
 				return Math.min(me.v + progress / 20, me.maxV);
 			} else if (others.length == 1 || others[0].x - me.x - me.w < me.d / 2) {
-				var dist = others[0].x - me.x;
+				var dist = others[0].x - me.x - me.w;
 				return Math.max(me.v - progress, me.maxV * dist / (me.d / 2));
 			} else {
-				var dist = others[1].x - me.x;
+				var dist = others[1].x - me.x - me.w;
 				return Math.max(me.v - progress, me.maxV * dist / me.d);
 			}
 		}
@@ -44,6 +44,6 @@ var carDefs = {
 		physics: physics.twoCar,
 		v: .02,
 		maxV: .04,
-		w: 10
+		w: 20
 	}
 };
