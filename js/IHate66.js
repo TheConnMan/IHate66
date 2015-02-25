@@ -11,6 +11,7 @@ function initialize() {
 		var type = carDefs[Object.keys(carDefs)[Math.floor(Math.random() * Object.keys(carDefs).length)]];
 		var car = $.extend(true, {}, type);
 		car.id = d;
+		car.d = Math.random() * 500;
 		car.x = Math.random() * width;
 		car.l = Math.floor(Math.random() * lanes);
 		car.y = car.l * (h + 2 * pad)
